@@ -8,19 +8,20 @@
         <input type="text" id="price" v-model.number="price">
 
         <br>
+
         <!-- <span v-show="price < 0">가격을 음수로 입력할 수 없습니다.</span> -->
-        <span v-if="price <0">가격을 음수로 입력할 수 없습니다.</span>
+        <span v-if="price < 0">가격을 음수로 입력할 수 없습니다.</span>
 
         <h4>2) v-if, v-else-if, v-else</h4>
 
-        <label for="scpre">점수 : </label>
-        <input type="number" id="score" v-model.number="score">
+        <label for="score">점수 : </label>
+        <input type="number" id="score" v-model="score">
 
         <br>
 
-        <!-- <template> 요소는 렌더링에 포함되지 않지만 요소들을 그룹으로 묶어주기 위한 용도로 사용된다. -->
+        <!-- <template> 요소는 렌더링에 포함되지 않지만 요소들을 그룹을 묶어주기 위한 용도로 사용된다. -->
         <template v-if="score > 0">
-            짝수에 해당하는 등급은
+            점수에 해당하는 등급은
             <span v-if="score >= 90">A</span>
             <span v-else-if="score >= 80">B</span>
             <span v-else-if="score >= 70">C</span>
@@ -41,12 +42,11 @@
                 <th>영어 점수</th>
             </tr>
             <!-- <tr v-for="student in students"> -->
-            <!-- 
-                가상 DOM v-for로 랜더링한 배열 데이터의 순서가 변경되면 DOM 요소를 다시 그린다.
-                DOM 요소를 춱하여 DOM 요소의 위치를 변경하려면 key 속성을 추가하면 된다.
-                Key 속성에는 인덱스 번호를 부여하지 않고 반드시 고유한 연결되지 않는 값을 부여해야 한다.
+            <!--  
+                가상 DOM v-for로 렌더링한 배열 데이터의 순서가 변경되면 DOM 요소를 이동시키지 않고 DOM 요소를 다시 그린다.
+                DOM 요소를 추척하여 DOM 요소의 위치를 변경하려면 key 속성을 추가하면 된다.
+                key 속성에는 인덱스 번호를 부여하지 않고 반드시 고유한 변경되지 않는 값을 부여해야 한다.
             -->
-            <!-- <tr v-for="(student, index) in students"> -->
             <!-- <tr v-for="(student, index) in students" v-bind:key="student.no"> -->
             <tr v-for="(student, index) in students" :key="student.no">
                 <td v-text="index"></td>
@@ -69,7 +69,6 @@
                 <td v-text="value"></td>
             </tr>
         </table>
-
     </div>
 </template>
 
@@ -82,10 +81,10 @@
                 score: 0,
                 students: [
                     {no: 'S001', name: '홍길동', math: 70, eng: 80},
-                    {no: 'S002', name: '이몰요', math: 80, eng: 90},
+                    {no: 'S002', name: '이몽룡', math: 80, eng: 90},
                     {no: 'S003', name: '성춘향', math: 90, eng: 100},
                     {no: 'S004', name: '김철수', math: 100, eng: 90},
-                    {no: 'S005', name: '김영희', math: 90, eng: 80},
+                    {no: 'S005', name: '김영희', math: 90, eng: 80}
                 ],
                 user: {
                     no: 1,
@@ -95,10 +94,10 @@
                     email: 'hong123@naver.com'
                 }
             }
-        }
+        },
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>
