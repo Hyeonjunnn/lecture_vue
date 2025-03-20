@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>HOME</h2>
+        <p>메인 화면 입니다.</p>
     </div>
 </template>
 

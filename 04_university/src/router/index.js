@@ -1,13 +1,25 @@
-import AuthLayout from '@/layout/AuthLayout.vue'
-import BaseLayout from '@/layout/BaseLayout.vue'
 import { useAuthStore } from '@/stores/auth'
-import Login from '@/views/auth/Login.vue'
-import NotFound from '@/views/common/NotFound.vue'
-import AddDepartment from '@/views/department/AddDepartment.vue'
-import DepartmentDetail from '@/views/department/DepartmentDetail.vue'
-import Departments from '@/views/department/Departments.vue'
-import Home from '@/views/Home.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+// import AuthLayout from '@/layout/AuthLayout.vue'
+// import BaseLayout from '@/layout/BaseLayout.vue'
+// import Login from '@/views/auth/Login.vue'
+// import NotFound from '@/views/common/NotFound.vue'
+// import AddDepartment from '@/views/department/AddDepartment.vue'
+// import DepartmentDetail from '@/views/department/DepartmentDetail.vue'
+// import Departments from '@/views/department/Departments.vue'
+// import Home from '@/views/Home.vue'
+
+
+// 지연 로딩 적용(Lazy Loading) 적용
+// 지연 로딩은 컴포넌트가 이용되는 시점에 컴포넌트 및 관련된 모듈을 웹 서버로부터 로딩하는 방법이다.
+const AuthLayout = () => import ('@/layout/AuthLayout.vue') 
+const BaseLayout = () => import ('@/layout/BaseLayout.vue') 
+const Login = () => import ('@/views/auth/Login.vue') 
+const NotFound = () => import ('@/views/common/NotFound.vue') 
+const AddDepartment = () => import ('@/views/department/AddDepartment.vue') 
+const DepartmentDetail = () => import ('@/views/department/DepartmentDetail.vue') 
+const Departments = () => import ('@/views/department/Departments.vue') 
+const Home = () => import ('@/views/Home.vue') 
 
 const router = createRouter({
   // 라우터가 사용할 라우팅 모드 지정 (HTML 5 모드)

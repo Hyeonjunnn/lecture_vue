@@ -19,19 +19,19 @@
                     명명된 라우터의 경우 v-bind를 이용해서 to 속성에 문자열이 아닌 객체를 바인딩해야한다.
                 -->
                 <!-- <RouterLink :to="{ name: 'home'}">HOME</RouterLink> -->
-                <RouterLink :to="{ name: 'home'}" class="nav-link" active-class="link-secondary">HOME</RouterLink>
+                <RouterLink :to="{ name: 'home'}" class="nav-link">HOME</RouterLink>
             </li>
             <li class="nav-item">
                 <!-- <RouterLink to="/departments">학과 목록 조회</RouterLink> -->
-                <RouterLink :to="{ name: 'departments'}" class="nav-link" active-class="link-secondary">학과 목록 조회</RouterLink>
+                <RouterLink :to="{ name: 'departments'}" class="nav-link">학과 목록 조회</RouterLink>
             </li>
             <li class="nav-item">
                 <!-- <RouterLink to="/departments/1">학과 상세 조회</RouterLink> -->
-                <RouterLink :to="{ name: 'departments/no', params: {no: '033'}}" class="nav-link" active-class="link-secondary">학과 상세 조회</RouterLink>
+                <RouterLink :to="{ name: 'departments/no', params: {no: '033'}}" class="nav-link">학과 상세 조회</RouterLink>
             </li>
             <li class="nav-item">
                 <!-- <RouterLink to="/departments/add">학과 추가</RouterLink> -->
-                <RouterLink :to="{ name: 'departments/add'}" class="nav-link" active-class="link-secondary">학과 추가</RouterLink>
+                <RouterLink :to="{ name: 'departments/add'}" class="nav-link">학과 추가</RouterLink>
             </li>
         </ul>
         <div class="col-md-3 text-end">
@@ -45,5 +45,9 @@
 </script>
 
 <style scoped>
+    /* 현재 URL과 정확하게 일치하는 경우에만 스타일이 적용된다.  */
+    .router-link-exact-active {
+        color: rgb(108, 117, 125);
 
+    }
 </style>
