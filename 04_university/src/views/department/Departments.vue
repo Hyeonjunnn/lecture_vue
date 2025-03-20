@@ -1,19 +1,21 @@
 <template>
     <main>
         <DepartmentTable :departments="departments"/>
-        <Pagination :pageInfo="pageInfo"/>
+        <Pagination :pageInfo="pageInfo"
+            @change-page="changePage"/>
     </main>
 </template>
 
 <script setup>
     import apiClient from '@/api';
-    import { onMounted, reactive, ref } from 'vue';
-    import { useRoute } from 'vue-router';
+    import { onMounted, reactive, ref, watch } from 'vue';
+    import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
     import DepartmentTable from '@/components/tables/DepartmentTable.vue';
     import Pagination from '@/components/common/Pagination.vue';
 
     const departments = ref([]);
     const currentRoute = useRoute();
+    const router = useRouter();
 
     const pageInfo = reactive({
     // 값을 정수로 변환하고 실패하면 1을 기본값으로 사용
@@ -45,8 +47,6 @@
         try{
             const response = await apiClient.get(`/api/v1/university-service/departments?page=${page}&numOfRows=10`)
 
-            console.log(response);
-
             departments.value = response.data.items;
             pageInfo.totalCount = response.data.totalCount;
             pageInfo.listLimit = 10;
@@ -56,6 +56,27 @@
             console.log(error);
         }
     }
+
+    const changePage = ({page, totalPages}) => {
+        if (page >= 1 && page <= totalPages) {
+            router.push({ name: 'departments', query: {page} });
+        }
+    };
+
+    // 이미 마운트된 컴포넌트는 URI가 변경되었다고 해서 다시 마운트되지 않는다.
+    // 관찰 속성을 사용해서 currentRoute 변경이 감지되면 하위 컴포넌트를 다시 랜더링하도록 코드 수정
+    // watch(currentRoute, () => {
+    //     pageInfo.currentPage = parseInt(currentRoute.query.page) || 1;
+
+    //     fetchDepartments(pageInfo.currentPage);
+    // });
+
+    // 라우트가 변경될 때 특정 로직을 실행하는 훅(Hook)이다.
+    onBeforeRouteUpdate((to, from) => {
+        pageInfo.currentPage = parseInt(to.query.page) || 1;
+
+        fetchDepartments(pageInfo.currentPage);
+    });
 
     onMounted(() => {
         fetchDepartments(pageInfo.currentPage);

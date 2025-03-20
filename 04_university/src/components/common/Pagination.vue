@@ -3,17 +3,22 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                    <a class="page-link" href="#" aria-label="Previous"
+                        @click.prevent="changePage(pageInfo.currentPage - 1);">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
+
+                <li v-for="page in generateSequence" :key="page" class="page-item">
+                    <a class="page-link" :class="{active: pageInfo.currentPage === page}" href="#"
+                        @click.prevent="changePage(page);">
+                        {{ page }}
+                    </a>
+                </li>
+
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                    <a class="page-link" href="#" aria-label="Next"
+                    @click.prevent="changePage(pageInfo.currentPage + 1);">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -23,5 +28,62 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 
+    const props = defineProps({
+        pageInfo: {
+            type: Object,
+            required: true
+        }
+    });
+
+    /* 
+        전체 페이지의 수
+
+        totalCount = 100, listLimit = 10
+        100 / 10 = 10.0 => 10페이지
+        101 / 10 = 10.1 => 11페이지
+        103 / 10 = 10.3 => 11페이지
+        109 / 10 = 10.9 => 11페이지
+        110 / 10 = 11.0 => 11페이지
+        111 / 10 = 11.1 => 12페이지
+    */
+    const totalPages = computed(
+        () => Math.ceil(props.pageInfo.totalCount / props.pageInfo.listLimit)
+    );
+
+    /* 
+        페이징 된 페이지 중 시작 페이지
+     */
+    const startPage = computed(
+        () => (props.pageInfo.pageLimit *
+            Math.floor((props.pageInfo.currentPage - 1) / props.pageInfo.pageLimit)) + 1
+    );
+
+    // 페이징 된 페이지 중 마지막 페이지
+    const endPage = computed(
+        () => {
+            let end = startPage.value + props.pageInfo.pageLimit - 1;
+
+            return end > totalPages.value ? totalPages.value : end;
+        }
+    );
+
+    const generateSequence = computed(
+        () => {
+            const sequence = [];
+
+            for (let i = startPage.value; i <= endPage.value; i++) {
+                sequence.push(i);
+            }
+
+            return sequence;
+        }
+    );
+
+    const emit = defineEmits(['change-page']);
+    const changePage = (page) => {
+        // emit('change-page', {page});
+        emit('change-page', { page, totalPages: totalPages.value });
+    };
 </script>
