@@ -41,6 +41,16 @@
 </template>
 
 <script setup>
+import { useAuthStore } from '@/stores/auth';
+
+    const logout =() => {
+        if (confirm('정말로 로그아웃 하시겠습니까?')) {
+            const authStore = useAuthStore();
+
+            authStore.logout();
+        }
+
+    };
 
 </script>
 
