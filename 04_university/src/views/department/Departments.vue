@@ -1,6 +1,7 @@
 <template>
     <main>
-        <DepartmentTable :departments="departments"/>
+        <DepartmentTable :departments="departments"
+            @item-click="itemClick" @delete-department="deleteDepartment" />
         <Pagination :pageInfo="pageInfo"
             @change-page="changePage"/>
     </main>
@@ -50,10 +51,16 @@
             departments.value = response.data.items;
             pageInfo.totalCount = response.data.totalCount;
             pageInfo.listLimit = 10;
-
         } catch(error) {
-            
-            console.log(error);
+            if ( error.response.dat.code === 403) {
+            }
+            if (error.response.data.code === 404) {
+                alert(error.response.data.message);
+
+                router.push({name: 'departments'});
+            } else {
+                alert('에러가 발생했습니다.');
+            }
         }
     }
 
@@ -62,6 +69,28 @@
             router.push({ name: 'departments', query: {page} });
         }
     };
+
+    const itemClick = (no) => {
+        router.push({name: 'departments/no', params: {no}})
+    };
+
+    const deleteDepartment = async (no) => {
+        console.log(no);
+
+        try {
+            const response = await apiClient.delete(
+                `/api/v1/university-service/departments/${no}`
+            );
+
+            if (response.data.code === 200) {
+                alert('정상적으로 삭제되었습니다.');
+
+                fetchDepartments(pageInfo.currentPage);
+            }
+        } catch (error) {
+
+        }
+    }
 
     // 이미 마운트된 컴포넌트는 URI가 변경되었다고 해서 다시 마운트되지 않는다.
     // 관찰 속성을 사용해서 currentRoute 변경이 감지되면 하위 컴포넌트를 다시 랜더링하도록 코드 수정

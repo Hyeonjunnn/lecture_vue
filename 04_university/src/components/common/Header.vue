@@ -27,7 +27,7 @@
             </li>
             <li class="nav-item">
                 <!-- <RouterLink to="/departments/1">학과 상세 조회</RouterLink> -->
-                <RouterLink :to="{ name: 'departments/no', params: {no: '033'}}" class="nav-link">학과 상세 조회</RouterLink>
+                <RouterLink :to="{ name: 'departments/no', params: {no: '033'}}" class="nav-link">학과 상세 조회(테스트)</RouterLink>
             </li>
             <li class="nav-item">
                 <!-- <RouterLink to="/departments/add">학과 추가</RouterLink> -->
